@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "jancuk25",
+    "database": "binar-9",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "jancuk25",
+    "database": "binar-9",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "jancuk25",
+    "database": "binar-9",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
