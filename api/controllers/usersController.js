@@ -4,31 +4,35 @@ const bcrypt = require("bcrypt");
 
 const { Users, Profiles } = require("../../models");
 
-
 const jwtsecret = process.env.JWT_SECRET || "secret";
 
 const register = async (req, res) => {
   const { name, password, phone_number, email } = req.body;
-
+  // console.log(req.body);
   try {
+    // console.log("hello world");
     const userExist = await Users.findOne({
       where: {
         email,
       },
     });
-    if (!userExist) {
-      return res.status(400).json({
-        message: "User already exist",
-      });
-      // console.log(!userExist);
-    }
+    // if (!userExist) {
+    //   return res.status(400).json({
+    //     message: "User already exist",
+    //   });
+    //   // console.log(!userExist);
+    // }
+    // if (userExist) {
+    //   return res.status(400).json({
+    //     message: "User already exist",
+    //   });
+    // }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await Users.create(
       {
         name,
-        password: hashedPassword,
         phone_number,
         email,
         Profiles: {
@@ -40,7 +44,6 @@ const register = async (req, res) => {
       {
         include: [Profiles],
       }
-
     );
     return res.status(201).json({
       message: "User created",
@@ -66,6 +69,7 @@ const login = async (req, res) => {
       return res.status(400).json({
         message: "User not found",
       });
+      // console.log(!userLogin);
     }
 
     let isPasswordTrue = await bcrypt.compare(password, userLogin.password);
