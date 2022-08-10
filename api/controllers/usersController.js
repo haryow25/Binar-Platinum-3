@@ -7,7 +7,7 @@ const { Users, Profiles } = require("../../models");
 const jwtsecret = process.env.JWT_SECRET || "secret";
 
 const register = async (req, res) => {
-  const { name, password, phone_number, email } = req.body;
+  const { name, password, phone_number, email, role } = req.body;
   // console.log(req.body);
   try {
     // console.log("hello world");
@@ -36,10 +36,12 @@ const register = async (req, res) => {
         name,
         phone_number,
         email,
+        role,
         Profiles: {
           name,
           phone_number,
           email,
+          role,
         },
       },
       {
@@ -51,10 +53,10 @@ const register = async (req, res) => {
       data: newUser,
     });
   } catch (error) {
-    return res.status(400).json({
-      message: "Error creating user",
-    });
-    // console.log(error);
+    // return res.status(400).json({
+    //   message: "Error creating user",
+    // });
+    console.log(error);
   }
 };
 
@@ -79,6 +81,7 @@ const login = async (req, res) => {
         message: "Invalid password",
       });
     }
+
 
     const tokenPayload = {
       id: userLogin.id,
