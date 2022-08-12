@@ -7,7 +7,7 @@ const { Users, Profiles } = require("../../models");
 const jwtsecret = process.env.JWT_SECRET || "secret";
 
 const register = async (req, res) => {
-  const { name, password, phone_number, email, role } = req.body;
+  const { name, password, phone_number, email} = req.body;
   // console.log(req.body);
   try {
     // console.log("hello world");
@@ -23,25 +23,26 @@ const register = async (req, res) => {
     //   // console.log(!userExist);
     // }
     if (userExist) {
-      console.log("user exist");
+      // console.log("user exist");
       return res.status(400).json({
         message: "User already exist",
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const encryptedPassword = await bcrypt.hash(password, 10);
+
 
     const newUser = await Users.create(
       {
         name,
         phone_number,
         email,
-        role,
+        // password: hashedPassword,
+        password: encryptedPassword,
         Profiles: {
           name,
           phone_number,
           email,
-          role,
         },
       },
       {
@@ -104,7 +105,9 @@ const login = async (req, res) => {
     return res.status(400).json({
       message: "Error login",
     });
+    // console.log(error);
   }
+
 };
 
 const forgotPassword = async (req, res) => {
